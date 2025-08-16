@@ -7,6 +7,7 @@ export default defineSchema({
     email: v.string(),
     name: v.string(),
     avatar: v.optional(v.string()),
+    googleId: v.optional(v.string()), // Google OAuth ID
     createdAt: v.number(),
     updatedAt: v.number(),
     
@@ -17,7 +18,16 @@ export default defineSchema({
       expiresAt: v.number(),
     })),
   })
-  .index("by_email", ["email"]),
+  .index("by_email", ["email"])
+  .index("by_google_id", ["googleId"]),
+
+  // User Sessions
+  sessions: defineTable({
+    userId: v.id("users"),
+    expiresAt: v.number(),
+    createdAt: v.number(),
+  })
+  .index("by_user", ["userId"]),
 
   // Task Management
   tasks: defineTable({

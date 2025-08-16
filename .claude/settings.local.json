@@ -7,7 +7,8 @@
       "Bash(npx tsc:*)",
       "Bash(npx convex env set:*)",
       "Bash(npx convex env:*)",
-      "Bash(grep:*)"
+      "Bash(grep:*)",
+      "Bash(mv:*)"
     ],
     "deny": []
   }

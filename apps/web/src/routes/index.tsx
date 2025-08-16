@@ -1,4 +1,4 @@
-import { SimpleAuth } from "@/components/auth/simple-auth";
+import { BetterAuth } from "@/components/auth/better-auth";
 import { ProgressDisplay } from "@/components/gamification/progress-display";
 import { ModernTaskList } from "@/components/tasks/modern-task-list";
 import { TaskCreationResponsive } from "@/components/ai-input/task-creation-responsive";
@@ -8,54 +8,50 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { api } from "@ai-tasked/backend";
 import { useConvexMutation } from "@convex-dev/react-query";
 import { createFileRoute } from "@tanstack/react-router";
-import { Calendar, Settings, Sparkles, Trophy, Menu } from "lucide-react";
+import { Calendar, Settings, Sparkles, Trophy, LogOut } from "lucide-react";
 import { useEffect, useState } from "react";
+import { useAuth } from "@/hooks/use-auth";
 
 export const Route = createFileRoute("/")({
   component: HomeComponent,
 });
 
 function HomeComponent() {
-  const [userId, setUserId] = useState<string | null>(null);
+  const { userId, isLoading, isAuthenticated, handleAuthSuccess, handleSignOut } = useAuth();
   const [refreshKey, setRefreshKey] = useState(0);
-
-  // Check for existing user in localStorage
-  useEffect(() => {
-    const storedUserId = localStorage.getItem("ai-tasked-user-id");
-    if (storedUserId) {
-      setUserId(storedUserId);
-    }
-  }, []);
-
-  const handleAuthSuccess = (newUserId: string) => {
-    setUserId(newUserId);
-    localStorage.setItem("ai-tasked-user-id", newUserId);
-  };
-
-  const handleSignOut = () => {
-    setUserId(null);
-    localStorage.removeItem("ai-tasked-user-id");
-  };
-
-  const handleTaskUpdate = () => {
-    setRefreshKey((prev) => prev + 1);
-  };
-
-  // Seed achievements on first load
+  
+  // Always call hooks in the same order
   const seedAchievements = useConvexMutation(api.gamification.seedAchievements);
+  
   useEffect(() => {
     if (userId) {
       seedAchievements({});
     }
   }, [userId, seedAchievements]);
 
-  if (!userId) {
-    return <SimpleAuth onAuthSuccess={handleAuthSuccess} />;
+  const handleTaskUpdate = () => {
+    setRefreshKey((prev) => prev + 1);
+  };
+
+  // Show loading state
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-background">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-blue-500 mx-auto"></div>
+          <p className="mt-4 text-lg">Loading...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (!isAuthenticated) {
+    return <BetterAuth onAuthSuccess={(newUserId, sessionId) => handleAuthSuccess(newUserId, sessionId)} />;
   }
 
   return (
     <div className="min-h-screen bg-background pb-20">
-      {/* Mobile-First Header */}
+      {/* Simplified Header */}
       <header className="sticky top-0 z-40 border-b bg-background/95 backdrop-blur">
         <div className="container mx-auto px-4 py-3">
           <div className="flex items-center justify-between">
@@ -64,14 +60,12 @@ function HomeComponent() {
               <h1 className="text-xl sm:text-2xl font-bold">AI-Tasked</h1>
             </div>
             <div className="flex items-center gap-2">
-              <Button variant="ghost" size="icon" className="sm:hidden">
-                <Menu className="h-5 w-5" />
-              </Button>
-              <Button variant="outline" onClick={handleSignOut} className="hidden sm:flex">
+              <Button variant="outline" onClick={handleSignOut} className="hidden sm:flex gap-2">
+                <LogOut className="h-4 w-4" />
                 Sign Out
               </Button>
               <Button variant="outline" size="icon" onClick={handleSignOut} className="sm:hidden">
-                👤
+                <LogOut className="h-4 w-4" />
               </Button>
             </div>
           </div>
@@ -137,6 +131,14 @@ function HomeComponent() {
                     <span className="ml-auto text-xs text-muted-foreground">
                       Bientôt
                     </span>
+                  </Button>
+                  <Button
+                    variant="outline"
+                    className="w-full justify-start text-sm text-red-600 hover:text-red-700"
+                    onClick={handleSignOut}
+                  >
+                    <LogOut className="h-4 w-4 mr-2" />
+                    Déconnexion
                   </Button>
                 </CardContent>
               </Card>
