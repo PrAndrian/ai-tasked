@@ -1,5 +1,8 @@
 import { Toaster } from "@/components/ui/sonner";
 
+import Loader from "@/components/loader";
+import type { QueryClient } from "@tanstack/react-query";
+import { QueryClientProvider } from "@tanstack/react-query";
 import {
   HeadContent,
   Outlet,
@@ -8,17 +11,13 @@ import {
   useRouterState,
 } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
-import Header from "../components/header";
-import appCss from "../index.css?url";
-import type { QueryClient } from "@tanstack/react-query";
-import { QueryClientProvider } from "@tanstack/react-query";
-import type { ConvexClient } from "convex/browser";
+import type { ConvexReactClient } from "convex/react";
 import { ConvexProvider } from "convex/react";
-import Loader from "@/components/loader";
+import appCss from "../index.css?url";
 
 export interface RouterAppContext {
   queryClient: QueryClient;
-  convexClient: ConvexClient;
+  convexClient: ConvexReactClient;
 }
 
 export const Route = createRootRouteWithContext<RouterAppContext>()({
@@ -48,13 +47,15 @@ export const Route = createRootRouteWithContext<RouterAppContext>()({
         <HeadContent />
       </head>
       <body>
-        <div className="min-h-screen flex items-center justify-center bg-background">
-          <div className="text-center space-y-4">
-            <h1 className="text-2xl font-bold text-red-500">Something went wrong</h1>
+        <div className="flex justify-center items-center min-h-screen bg-background">
+          <div className="space-y-4 text-center">
+            <h1 className="text-2xl font-bold text-red-500">
+              Something went wrong
+            </h1>
             <p className="text-muted-foreground">{error.message}</p>
-            <button 
-              onClick={() => window.location.reload()} 
-              className="px-4 py-2 bg-primary text-primary-foreground rounded-md"
+            <button
+              onClick={() => window.location.reload()}
+              className="px-4 py-2 rounded-md bg-primary text-primary-foreground"
             >
               Reload Page
             </button>
@@ -79,10 +80,7 @@ function RootDocument() {
       <body>
         <QueryClientProvider client={queryClient}>
           <ConvexProvider client={convexClient}>
-            <div className="grid h-svh grid-rows-[auto_1fr]">
-              <Header />
-              {isFetching ? <Loader /> : <Outlet />}
-            </div>
+            <div className="h-svh">{isFetching ? <Loader /> : <Outlet />}</div>
             <Toaster richColors />
             <TanStackRouterDevtools position="bottom-left" />
           </ConvexProvider>
