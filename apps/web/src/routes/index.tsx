@@ -2,7 +2,7 @@ import { SimpleAuth } from "@/components/auth/simple-auth";
 import { ProgressDisplay } from "@/components/gamification/progress-display";
 import { ModernTaskList } from "@/components/tasks/modern-task-list";
 import { TaskCreationResponsive } from "@/components/ai-input/task-creation-responsive";
-import { TaskCreationDrawer } from "@/components/ai-input/task-creation-drawer";
+import { ResponsiveAIChat } from "@/components/ai-input/responsive-ai-chat";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { api } from "@ai-tasked/backend";
@@ -163,8 +163,8 @@ function HomeComponent() {
         </div>
       </main>
 
-      {/* Task Creation Drawer */}
-      <TaskCreationDrawer
+      {/* Responsive AI Chat */}
+      <ResponsiveAIChat
         userId={userId}
         onTasksCreated={handleTaskUpdate}
       />

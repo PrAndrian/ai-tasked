@@ -139,7 +139,7 @@ export const updateTask = mutation({
     scheduledFor: v.optional(v.number()),
     duration: v.optional(v.number()),
   },
-  handler: async (ctx, args) => {
+  handler: async (ctx, args): Promise<{ task: any; xpResult: any }> => {
     const { taskId, ...updates } = args;
     const task = await ctx.db.get(taskId);
     
