@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(bun:*)",
+      "Bash(pkill:*)",
+      "Bash(true)",
+      "Bash(npx tsc:*)",
+      "Bash(npx convex env set:*)",
+      "Bash(npx convex env:*)",
+      "Bash(grep:*)"
+    ],
+    "deny": []
+  }
+}

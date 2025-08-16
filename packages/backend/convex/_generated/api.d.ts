@@ -13,8 +13,14 @@ import type {
   FilterApi,
   FunctionReference,
 } from "convex/server";
+import type * as ai from "../ai.js";
+import type * as auth from "../auth.js";
+import type * as calendar from "../calendar.js";
+import type * as gamification from "../gamification.js";
 import type * as healthCheck from "../healthCheck.js";
+import type * as tasks from "../tasks.js";
 import type * as todos from "../todos.js";
+import type * as whisper from "../whisper.js";
 
 /**
  * A utility for referencing Convex functions in your app's API.
@@ -25,8 +31,14 @@ import type * as todos from "../todos.js";
  * ```
  */
 declare const fullApi: ApiFromModules<{
+  ai: typeof ai;
+  auth: typeof auth;
+  calendar: typeof calendar;
+  gamification: typeof gamification;
   healthCheck: typeof healthCheck;
+  tasks: typeof tasks;
   todos: typeof todos;
+  whisper: typeof whisper;
 }>;
 export declare const api: FilterApi<
   typeof fullApi,

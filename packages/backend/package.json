@@ -1,6 +1,25 @@
 {
   "name": "@ai-tasked/backend",
   "version": "1.0.0",
+  "main": "./index.ts",
+  "types": "./index.ts",
+  "exports": {
+    ".": {
+      "types": "./index.ts",
+      "import": "./index.ts",
+      "require": "./index.ts"
+    },
+    "./convex/_generated/api": {
+      "types": "./convex/_generated/api.d.ts",
+      "import": "./convex/_generated/api.js",
+      "require": "./convex/_generated/api.js"
+    },
+    "./convex/_generated/dataModel": {
+      "types": "./convex/_generated/dataModel.d.ts",
+      "import": "./convex/_generated/dataModel.d.ts",
+      "require": "./convex/_generated/dataModel.d.ts"
+    }
+  },
   "scripts": {
     "dev": "convex dev",
     "dev:setup": "convex dev --configure --until-success"
@@ -9,6 +28,7 @@
   "license": "ISC",
   "description": "",
   "devDependencies": {
+    "@types/node": "^24.1.0",
     "typescript": "^5.8.3"
   },
   "dependencies": {

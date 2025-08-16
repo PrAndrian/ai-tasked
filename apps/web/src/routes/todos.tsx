@@ -15,8 +15,8 @@ import { useState } from "react";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { convexQuery } from "@convex-dev/react-query";
 import { useMutation } from "convex/react";
-import { api } from "@ai-tasked/backend/convex/_generated/api";
-import type { Id } from "@ai-tasked/backend/convex/_generated/dataModel";
+import { api } from "@ai-tasked/backend";
+import type { Id } from "@ai-tasked/backend";
 
 export const Route = createFileRoute("/todos")({
   component: TodosRoute,

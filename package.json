@@ -15,7 +15,10 @@
     "dev:server": "turbo -F @ai-tasked/backend dev",
     "dev:setup": "turbo -F @ai-tasked/backend dev:setup"
   },
-  "dependencies": {},
+  "dependencies": {
+    "@radix-ui/react-dialog": "^1.1.14",
+    "class-variance-authority": "^0.7.1"
+  },
   "devDependencies": {
     "turbo": "^2.5.4",
     "husky": "^9.1.7",
